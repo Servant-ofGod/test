@@ -1,0 +1,179 @@
+<!-- ShowPatientTable.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<link href="/header.css" rel="stylesheet">
+	<link href="/mainPage.css" rel="stylesheet">
+	<link href="/footer.css" rel="stylesheet">
+	<title>Список пацієнтів</title>
+</head>
+
+<body>
+	<!-- <div class="header">
+
+		<div class="nav-left"> -->
+	<!-- Меню для страницы ShowPatientTable -->
+	<!-- <a class="btn" th:href="@{/insertPatient}">Додати пацієнта</a>
+			<a class="btn" th:href="@{/dataDisplayPatientTable(reset=true)}">Скинути параметри</a>
+			<a class="btn" th:href="@{/dataDisplayHospitalTable}">Повернутися на головну</a>
+		</div>
+
+		<div class="nav-right">
+			<a class="btn" th:href="@{/login}">Вийти</a>
+		</div>
+
+	</div> -->
+
+
+
+
+
+
+
+	<header class="header">
+		<div class="header__container">
+			<div class="header__menu menu">
+				<div class="menu__icon">
+					<span></span>
+				</div>
+
+				<nav class="menu__body">
+					<ul class="menu__list">
+						<!-- Меню для страницы ShowPatientTable -->
+						<li><a href="#" th:href="@{/insertPatient}" class="menu__link btn ">Додати нове відділення</a></li>
+						<li><a href="#" th:href="@{/dataDisplayPatientTable(reset=true)}" class="menu__link btn ">Скинути
+								параметри</a></li>
+						<li><a href="#" th:href="@{/dataDisplayHospitalTable}" class="menu__link btn ">Список пацієнтів</a></li>
+					</ul>
+				</nav>
+
+
+			</div>
+			<a href="index.html" th:href="@{/login}" class="header__btn btn">Вийти</a>
+		</div>
+	</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="content">
+
+		<!-- Success and Error Message -->
+		<div th:if="${successMsg}">
+			<p class="message success" id="successMessage" th:text="${successMsg}"></p>
+		</div>
+		<div th:if="${errorMsg}">
+			<p class="message error" id="errorMessage" th:text="${errorMsg}"></p>
+		</div>
+		<script>
+			setTimeout(() => {
+				document.querySelectorAll('.message').forEach(msg => msg.style.display = 'none');
+			}, 5000);
+		</script>
+		<div class="content-body">
+			<!-- -------------- -->
+			<div class="form-body">
+
+				<!-- Sort Form -->
+				<form action="sortPatient" class="form-container" method="get">
+					<label for="sortBy">Сортувати за:</label>
+					<select id="sortBy" name="sortBy">
+						<option value="surname">Прізвищем</option>
+						<option value="name">Ім'ям</option>
+						<option value="arrival">Часом прибуття</option>
+					</select>
+					<button class="sort-btn btn" type="submit">Відсортувати</button>
+				</form>
+
+				<!-- Search Form -->
+				<form action="searchPatient" class="form-container" method="get">
+					<label for="searchQuery">Шукати пацієнта за прізвищем:</label>
+					<input id="searchQuery" name="searchQuery" placeholder="Введіть пошуковий запит" required type="text">
+					<button class="search-btn btn" type="submit">Шукати</button>
+				</form>
+
+				<!-- Форма фильтрации пациентов по отделению -->
+				<form action="/WebAppsRduLab3/filterPatientByDepartment" class="form-container" method="get">
+					<label for="department">Фільтр за відділенням:</label>
+					<input id="department" name="department" placeholder="Введіть відділення" type="text">
+					<button class="filter-btn btn" type="submit">Фільтрувати по відділенню</button>
+				</form>
+
+				<!-- Форма фильтрации пациентов по возрасту -->
+				<form action="/WebAppsRduLab3/filterPatientByAge" class="form-container" method="get">
+					<label for="age">Фільтр за віком:</label>
+					<input id="age" name="age" placeholder="Введіть вік" type="text">
+					<button class="filter-btn btn" type="submit">Фільтрувати за віком</button>
+				</form>
+
+				<!-- Форма фильтрации пациентов по диапазону возраста -->
+				<form action="/WebAppsRduLab3/filterPatientByAgeRange" class="form-container" method="get">
+					<label for="ageRangeStart">Фільтр за діапазоном віку:</label>
+					<input id="ageRangeStart" name="ageRangeStart" placeholder="Початковий вік" type="text">
+					<input id="ageRangeEnd" name="ageRangeEnd" placeholder="Кінцевий вік" type="text">
+					<button class="filter-btn btn" type="submit">Фільтрувати за діапазоном віку</button>
+				</form>
+			</div>
+			<!-- -------------- -->
+			<div class="table-container-body">
+				<h1 class="page-title">Список пацієнтів</h1>
+				<!-- ------------------ -->
+
+				<div class="table-container">
+					<table>
+						<tr>
+							<th>Прізвище</th>
+							<th>Ім'я</th>
+							<th>По-батькові</th>
+							<th>Вік</th>
+							<th>Номер палати</th>
+							<th>Час прибуття</th>
+							<th>Відділення</th>
+							<th>Редагування</th>
+							<th>Видалення</th>
+						</tr>
+						<tr th:each="patient : ${patients}">
+							<td th:text="${patient.surname}"></td>
+							<td th:text="${patient.name}"></td>
+							<td th:text="${patient.pname}"></td>
+							<td th:text="${patient.fullYears}"></td>
+							<td th:text="${patient.number}"></td>
+							<td th:text="${#temporals.format(patient.arrival, 'HH:mm dd-MM-yyyy')}"></td>
+							<td th:text="${patient.department.nameDep}"></td>
+							<td>
+								<a class="btn" th:href="@{updatePatient(id=${patient.id})}">Відредагувати</a>
+							</td>
+							<td>
+								<a class="btn" th:href="@{deletePatient(id=${patient.id})}">Вилучити</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<!-- ------------------ -->
+			</div>
+			<!-- -------------- -->
+		</div>
+	</div>
+
+	<!-- Include Footer -->
+	<th:block th:replace="~{RDUFooter :: footer}"></th:block>
+	<script src="js/script.js"></script>
+</body>
+
+</html>

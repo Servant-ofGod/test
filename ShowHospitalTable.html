@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<link href="/header.css" rel="stylesheet">
+	<link href="/mainPage.css" rel="stylesheet">
+	<link href="/footer.css" rel="stylesheet">
+	<title>Список відділень лікарні</title>
+</head>
+
+<body>
+	<header class="header">
+		<div class="header__container">
+			<div class="header__menu menu">
+				<div class="menu__icon">
+					<span></span>
+				</div>
+
+				<nav class="menu__body">
+					<ul class="menu__list">
+						<!-- Меню для страницы ShowPatientTable -->
+						<li><a href="#" th:href="@{/insertPatient}" class="menu__link btn ">Додати нове відділення</a></li>
+						<li><a href="#" th:href="@{/dataDisplayPatientTable(reset=true)}" class="menu__link btn ">Скинути
+								параметри</a></li>
+						<li><a href="#" th:href="@{/dataDisplayHospitalTable}" class="menu__link btn ">Список пацієнтів</a></li>
+					</ul>
+				</nav>
+
+
+			</div>
+			<a href="index.html" th:href="@{/login}" class="header__btn btn">Вийти</a>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<!-- Success and Error Message -->
+		<div th:if="${successMsg}">
+			<p class="message success" id="successMessage" th:text="${successMsg}"></p>
+		</div>
+		<div th:if="${errorMsg}">
+			<p class="message error" id="errorMessage" th:text="${errorMsg}"></p>
+		</div>
+		<script>
+			setTimeout(() => {
+				document.querySelectorAll('.message').forEach(msg => msg.style.display = 'none');
+			}, 5000);
+		</script>
+
+		<div class="content-body">
+			<!-- Формы управления -->
+			<div class="form-body">
+
+				<!-- Sort Form -->
+				<form action="sortHospital" class="form-container" method="get">
+					<label for="sortBy">Сортувати за:</label>
+					<select id="sortBy" name="sortBy">
+						<option value="nameDep">Назвою відділення</option>
+						<option value="codeBuilding">Кодом будівлі</option>
+					</select>
+					<button class="sort-btn btn" type="submit">Відсортувати</button>
+				</form>
+
+				<!-- Search Form -->
+				<form action="searchHospital" class="form-container" method="get">
+					<label for="searchBy">Шукати за:</label>
+					<select id="searchBy" name="searchBy">
+						<option value="nameDep">Назвою відділення</option>
+						<option value="nameSDep">Коротким позначенням</option>
+						<option value="codeBuilding">Кодом будівлі</option>
+					</select>
+					<input id="searchQuery" name="searchQuery" placeholder="Введіть пошуковий запит" required type="text">
+					<button class="search-btn btn" type="submit">Шукати</button>
+				</form>
+
+				<!-- Filter Form -->
+				<form action="filterHospital" class="form-container" method="get">
+					<label for="building">Фільтр за кодом будівлі:</label>
+					<input id="building" name="building" placeholder="Введіть код будівлі" type="text">
+					<button class="filter-btn btn" type="submit">Фільтрувати</button>
+				</form>
+
+				<form action="filterHospital" class="form-container" method="get">
+					<label for="floor">Фільтр за поверхом:</label>
+					<input id="floor" name="floor" placeholder="Введіть поверх" type="text">
+					<button class="filter-btn btn" type="submit">Фільтрувати</button>
+				</form>
+
+				<form action="filterHospital" class="form-container" method="get">
+					<label for="boxCount">Фільтр за кількістю палат:</label>
+					<input id="boxCount" name="boxCount" placeholder="Введіть кількість палат" type="text">
+					<button class="filter-btn btn" type="submit">Фільтрувати</button>
+				</form>
+
+			</div>
+
+			<!-- Таблица отделений -->
+			<div class="table-container-body">
+				<h1 class="page-title">Список відділень лікарень</h1>
+				<div class="table-container">
+					<table>
+						<tr>
+							<th>Назва відділення</th>
+							<th>Коротке позначення</th>
+							<th>Код будівлі</th>
+							<th>Поверх</th>
+							<th>Кількість палат</th>
+							<th>Редагування</th>
+							<th>Видалення</th>
+						</tr>
+						<tr th:each="department : ${departments}">
+							<td th:text="${department.nameDep}"></td>
+							<td th:text="${department.nameSDep}"></td>
+							<td th:text="${department.codeBuilding}"></td>
+							<td th:text="${department.floor}"></td>
+							<td th:text="${department.boxCount}"></td>
+							<td>
+								<a class="btn" th:href="@{editHospital(id=${department.id})}">Відредагувати</a>
+							</td>
+							<td>
+								<a class="btn" th:href="@{deleteHospital(id=${department.id})}">Вилучити</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Include Footer -->
+	<th:block th:replace="~{RDUFooter :: footer}"></th:block>
+	<script src="js/script.js"></script>
+
+</body>
+
+</html>

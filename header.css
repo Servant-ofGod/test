@@ -1,0 +1,164 @@
+/* .header {
+    background-color: #caa4ef;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #FFFFFF;
+    font-family: Arial, sans-serif;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+} */
+
+/* .btn {
+	background-color: #9932CC;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	text-decoration: none;
+	border-radius: 5px;
+	font-size: 16px;
+	transition: background-color 0.3s ease;
+} */
+
+/* .btn:hover {
+    background-color: #800080;
+}
+
+.nav-left {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+} */
+
+
+
+
+
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 11;
+	background-color: #9932CC;
+
+}
+
+.header__container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 60px;
+	padding-left: 18px;
+	padding-right: 18px;
+}
+
+.header__btn {
+	position: relative;
+	z-index: 5;
+	text-decoration: none;
+}
+
+
+
+/* .menu__list{
+
+} */
+
+.menu__link {
+	color: #ffffff;
+	font-size: 18px;
+	/* width: 100%; */
+}
+
+.menu .menu__icon {
+	z-index: 5;
+	display: block;
+	position: relative;
+	width: 30px;
+	height: 20px;
+}
+
+.menu .menu__icon span,
+.menu .menu__icon::before,
+.menu .menu__icon::after {
+	left: 0;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	transition: all 0.3s ease 0s;
+	background-color: #ffffff;
+	height: 3px;
+}
+
+.menu .menu__icon::before,
+.menu .menu__icon::after {
+	content: "";
+}
+
+.menu .menu__icon::before {
+	top: 0;
+}
+
+.menu .menu__icon::after {
+	bottom: 0;
+}
+
+.menu .menu__icon span {
+	top: 50%;
+	transform: scale(1) translate(0px, -50%);
+}
+
+.menu .menu__icon._active span {
+	transform: scale(0) translate(0px, -50%);
+}
+
+.menu .menu__icon._active::before {
+	top: 50%;
+	transform: rotate(-45deg) translate(0px, -50%);
+}
+
+.menu .menu__icon._active::after {
+	bottom: 50%;
+	transform: rotate(45deg) translate(0px, 50%);
+}
+
+.menu .menu__body {
+	position: fixed;
+	top: 0;
+	left: -100%;
+	height: auto;
+	width: auto;
+	padding: 90px 30px 30px 30px;
+	transition: left 0.3s ease 0s;
+	background-color: #cf6fffa9;
+	border-radius: 0 0 8px 0;
+	overflow: auto;
+}
+
+.menu .menu__body._active {
+	left: 0;
+}
+
+.menu .menu__body::before {
+	content: "";
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	height: 60px;
+	background-color: #cf6fff;
+	z-index: 2;
+}
+
+.menu .menu__list>li:not(:last-child) {
+	margin: 0px 0px 14px 0px;
+}
+
+/* .menu .menu__link {
+	font-size: 22px;
+} */
